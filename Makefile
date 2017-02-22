@@ -10,6 +10,10 @@ build-js:
 build-doc:
 	npm run doc
 
+release:
+	npm run release
+	npm publish
+
 
 clean:
 	npm run clean

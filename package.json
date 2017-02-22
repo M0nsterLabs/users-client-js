@@ -4,6 +4,7 @@
   "description": "User API SDK",
   "main": "index.js",
   "scripts": {
+    "predoc": "npm run build",
     "doc": "rimraf doc && jsdoc --configure etc/jsdoc.json dist",
     "build": "rimraf dist && babel -d dist src",
     "clean": "rimraf doc dist",
