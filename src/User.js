@@ -14,6 +14,10 @@ export default class User {
 
 	/**
 	 * Returns user's publicly available theme (name, avatar, colors).
+	 *
+	 * You will get an object {"userName":"...string","avatar":"...string","background":"#42a5f5"}
+	 *
+	 * @param user_id User id
 	 * @method Users#theme
 	 */
 	async theme(user_id) {
