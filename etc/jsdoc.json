@@ -1,0 +1,12 @@
+{
+  "opts": {
+    "encoding": "utf8",
+    "destination": "./doc/",
+    "recurse": true
+  },
+  "plugins": [
+    "node_modules/jsdoc-strip-async-await",
+    "plugins/markdown"
+  ]
+}
+

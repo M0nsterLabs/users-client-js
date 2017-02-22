@@ -1,0 +1,43 @@
+{
+  "name": "users-client-js",
+  "version": "1.0.0",
+  "description": "User API SDK",
+  "main": "index.js",
+  "scripts": {
+    "doc": "rimraf doc && jsdoc --configure etc/jsdoc.json dist",
+    "build": "rimraf dist && babel -d dist src",
+    "clean": "rimraf doc dist",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-register --require babel-polyfill --require bluebird --require isomorphic-fetch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M0nsterLabs/users-client-js.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/M0nsterLabs/users-client-js/issues"
+  },
+  "homepage": "https://github.com/M0nsterLabs/users-client-js#readme",
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-latest": "^6.22.0",
+    "bluebird": "^3.4.7",
+    "chai": "^3.5.0",
+    "isomorphic-fetch": "^2.2.1",
+    "jsdoc": "^3.4.3",
+    "jsdoc-strip-async-await": "^0.1.0",
+    "mocha": "^3.2.0",
+    "nock": "^9.0.6",
+    "rimraf": "^2.6.0",
+    "sinon": "^1.17.7"
+  },
+  "babel": {
+    "presets": [
+      "latest"
+    ]
+  }
+}
