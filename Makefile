@@ -12,7 +12,6 @@ build-doc:
 
 release:
 	npm run release
-	npm publish
 
 
 clean:
