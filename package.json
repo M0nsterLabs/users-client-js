@@ -1,5 +1,5 @@
 {
-  "name": "users-client-js",
+  "name": "tm-user-client-js",
   "version": "1.0.0",
   "description": "User API SDK",
   "main": "index.js",
@@ -7,7 +7,9 @@
     "doc": "rimraf doc && jsdoc --configure etc/jsdoc.json dist",
     "build": "rimraf dist && babel -d dist src",
     "clean": "rimraf doc dist",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-register --require babel-polyfill --require bluebird --require isomorphic-fetch"
+    "test": "./node_modules/.bin/mocha --compilers js:babel-register --require babel-polyfill --require bluebird --require isomorphic-fetch",
+    "release": "npm version patch && git push && git push --tags && npm publish",
+    "prepublish": "npm run build && npm run doc"
   },
   "repository": {
     "type": "git",
