@@ -1,6 +1,6 @@
 {
   "name": "tm-user-client-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "User API SDK",
   "main": "index.js",
   "scripts": {
