@@ -9,6 +9,7 @@
     "build": "rimraf dist && babel -d dist src",
     "clean": "rimraf doc dist",
     "test": "./node_modules/.bin/mocha --compilers js:babel-register --require babel-polyfill --require bluebird --require isomorphic-fetch",
+    "test:coverage": "./node_modules/.bin/istanbul cover --report clover ./node_modules/.bin/_mocha -- -u exports -R spec test/**/*  --compilers js:babel-register --require babel-polyfill --require bluebird --require isomorphic-fetch",
     "release": "npm version patch && git push && git push --tags && npm publish",
     "prepublish": "npm run build && npm run doc"
   },
@@ -31,6 +32,7 @@
     "bluebird": "^3.4.7",
     "chai": "^3.5.0",
     "isomorphic-fetch": "^2.2.1",
+    "istanbul": "^1.0.0-alpha",
     "jsdoc": "^3.4.3",
     "jsdoc-strip-async-await": "^0.1.0",
     "mocha": "^3.2.0",
