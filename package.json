@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "predoc": "npm run build",
-    "doc": "rimraf doc && jsdoc --configure etc/jsdoc.json dist",
+    "doc": "rimraf doc && jsdoc --configure etc/jsdoc.json dist && jsdoc2md --configure etc/jsdoc2md.json src/User.js > ./README.md",
     "build": "rimraf dist && babel -d dist src",
     "clean": "rimraf doc dist",
     "test": "./node_modules/.bin/mocha --compilers js:babel-register --require babel-polyfill --require bluebird --require isomorphic-fetch",
@@ -34,6 +34,7 @@
     "isomorphic-fetch": "^2.2.1",
     "istanbul": "^1.0.0-alpha",
     "jsdoc": "^3.4.3",
+    "jsdoc-babel": "^0.3.0",
     "jsdoc-strip-async-await": "^0.1.0",
     "mocha": "^3.2.0",
     "nock": "^9.0.6",
