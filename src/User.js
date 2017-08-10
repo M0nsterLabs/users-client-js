@@ -94,6 +94,10 @@ export default class UserService {
   static messages = {
     url: 'Wrong Service URL format',
     idMissing: 'ID argument missing',
+    tokenMissing: 'Token should be set',
+    userNotFound: 'User not found',
+    badRequest: 'Bad Request',
+    urlMissing: 'URL required',
   }
 
  /**
@@ -140,15 +144,19 @@ export default class UserService {
   * @throws {Error} - Error with server response code and message
   */
   async getOpenProfile(id) {
-    if (id === undefined) throw new Error(UserService.messages.idMissing);
-
+    if (id === undefined) {
+      throw new ErrorBadRequest(
+        400,
+        UserService.messages.badRequest,
+        UserService.messages.idMissing);
+    }
     const response = await fetch(`${this.url}users/${id}/profile`);
     if (response.ok) {
       const json = await response.json();
       return json;
     }
 
-    if (response.status === 404) throw new ErrorNotFound('User not found');
+    if (response.status === 404) throw new ErrorNotFound(UserService.messages.userNotFound);
 
     throw new ErrorServerResponse(response.status, response.statusText);
   }
@@ -165,10 +173,23 @@ export default class UserService {
   * @throws {Error} - Error with server response code and message
   */
   async getMyProfile() {
+    if (this.token === null) {
+      throw new ErrorBadRequest(
+        400,
+        UserService.messages.badRequest,
+        UserService.messages.tokenMissing);
+    }
+
     const response = await fetch(`${this.url}users/profile`);
-    const json = await response.json();
-    if (response.ok) return json;
-    throw new Error(`${response.status}: ${response.message}`);
+
+    if (response.ok) {
+      const json = await response.json();
+      return json;
+    }
+
+    if (response.status === 404) throw new ErrorNotFound(UserService.messages.userNotFound);
+
+    throw new ErrorServerResponse(response.status, response.statusText);
   }
 
  /**
@@ -183,7 +204,13 @@ export default class UserService {
   * @param {Object} userOptions - user defined options
   * @return {Promise} - Promise with server {@link https://developer.mozilla.org/docs/Web/API/Response|Response}
   */
-  static async request(url, userOptions) {
+  async request(url, userOptions) {
+    if (url === undefined) {
+      throw new ErrorBadRequest(
+        400,
+        UserService.messages.badRequest,
+        UserService.messages.urlMissing);
+    }
     const headers = {};
     if (this.token !== null) headers.Authorization = this.token;
     const defaultOptions = {
