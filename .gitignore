@@ -4,3 +4,4 @@ dist/
 doc/
 *.log
 /coverage
+.DS_Store

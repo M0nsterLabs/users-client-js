@@ -1,49 +1,83 @@
 {
   "name": "plasma-user-js-client",
   "version": "1.0.4",
-  "description": "User API SDK",
+  "description": "User Service API SDK",
   "main": "index.js",
   "scripts": {
-    "predoc": "npm run build",
-    "doc": "rimraf doc && jsdoc --configure etc/jsdoc.json dist && jsdoc2md --configure etc/jsdoc2md.json src/User.js > ./README.md",
-    "build": "rimraf dist && babel -d dist src",
-    "clean": "rimraf doc dist",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-register --require babel-polyfill --require bluebird --require isomorphic-fetch",
-    "test:coverage": "./node_modules/.bin/istanbul cover --report clover ./node_modules/.bin/_mocha -- -u exports -R spec test/**/*  --compilers js:babel-register --require babel-polyfill --require bluebird --require isomorphic-fetch",
-    "release": "npm version patch && git push && git push --tags && npm publish",
-    "prepublish": "npm run build && npm run doc"
+    "cli": "babel --help",
+    "clean": "rimraf documentation dist",
+    "build": "npm run clean && babel src --minified -s true -d dist --ignore __tests__/**,__mocks__/**",
+    "build:doc": "documentation build src/User.js -o documentation -f html",
+    "readme:doc": "documentation readme src/User.js -s 'Service Users'",
+    "lint:doc": "documentation lint src/User.js",
+    "lint:js": "eslint ./src/** --ext .jsx,.js --color -f stylish --fix",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Plasma-Platform/Plasma-Users-JS-Client.git"
   },
-  "author": "",
+  "author": "Sergey Mirza, Anton Nemtsev",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Plasma-Platform/Plasma-Users-JS-Client/issues"
   },
   "homepage": "https://github.com/Plasma-Platform/Plasma-Users-JS-Client",
   "dependencies": {
-    "lodash": "^4.17.4"
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-jest": "^20.0.3",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "documentation": "^5.1.1",
+    "enzyme": "^2.9.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "jest": "^20.0.4",
+    "jest-cli": "^20.0.4",
+    "jest-enzyme": "^3.6.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-test-renderer": "^15.6.1",
+    "rimraf": "^2.6.1",
+    "fetch-mock": "^5.12.1",
+    "jest-fetch-mock": "^1.2.1",
+    "nock": "^9.0.14"
+  },
+  "jest": {
+    "automock": false,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "!**/__mocks__/**",
+      "!**/__tests__/**",
+      "src/User.js"
+    ],
+    "moduleNameMapper": {
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|po)$": "<rootDir>/__mocks__/fileMock.js",
+      "^.+\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "coverageDirectory": "./coverage/",
+    "coverageReporters": [
+      "clover",
+      "json",
+      "text"
+    ],
+    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
+    "unmockedModulePathPatterns": [
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ]
   },
   "devDependencies": {
-    "babel-cli": "^6.22.2",
-    "babel-preset-latest": "^6.22.0",
-    "bluebird": "^3.4.7",
-    "chai": "^3.5.0",
-    "isomorphic-fetch": "^2.2.1",
-    "istanbul": "^1.0.0-alpha",
-    "jsdoc": "^3.4.3",
-    "jsdoc-babel": "^0.3.0",
-    "jsdoc-strip-async-await": "^0.1.0",
-    "mocha": "^3.2.0",
-    "nock": "^9.0.6",
-    "rimraf": "^2.6.0",
-    "sinon": "^1.17.7"
-  },
-  "babel": {
-    "presets": [
-      "latest"
-    ]
   }
 }
