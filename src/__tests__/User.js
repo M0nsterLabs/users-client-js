@@ -33,13 +33,11 @@ describe('User Service', () => {
     });
 
     it('Token should be stored, if provided', () => {
-      const token = 'token';
       const userService = new UserService(serviceUrl, token);
       expect(userService.token).toBe(token);
     });
 
     it('Token should change if you setup it with method', () => {
-      const token = 'token';
       const userService = new UserService(serviceUrl);
       userService.setToken(token);
       expect(userService.token).toBe(token);
@@ -160,30 +158,56 @@ describe('User Service', () => {
       }
     });
 
+    it('If there are no user with such Id', async () => {
+      const userService = new UserService(serviceUrl, token);
+      nock(/[.]+/)
+        .get('/users/v1/users/profile')
+        .reply(404);
+
+      try {
+        await userService.getMyProfile();
+      } catch (error) {
+        expect(error.statusCode).toEqual(404);
+      }
+    });
+
     it('If everything is OK then you should get user profile', async () => {
       const userService = new UserService(serviceUrl, token);
       nock(/[.]+/)
-      .get('/users/v1/users/profile')
-      .reply(200, myProfile);
-
-      try {
-        const profile = await userService.getMyProfile();
-        expect(profile).toEqual(myProfile);
-      } catch (error) {
-        expect(error.type).toEqual('invalid-json');
-      }
+        .get('/users/v1/users/profile')
+        .reply(200, myProfile);
+      const profile = await userService.getMyProfile();
+      expect(profile).toEqual(myProfile);
     });
   });
 
-  describe('Random request', () => {
+  describe('Random request', async () => {
     it('If you miss url argument Error should be thrown', async () => {
-      const userService = new UserService(serviceUrl);
       try {
-        userService.request();
+        const userService = new UserService(serviceUrl);
+        await userService.request();
       } catch (error) {
         expect(error.statusCode).toEqual(400);
         expect(error.statusText).toEqual('Bad Request');
       }
+    });
+
+    it('If token is set header should be added', async () => {
+      nock(/[.]+/)
+        .get('/users/v1/users/profile')
+        .reply(200);
+      const userService = new UserService(serviceUrl, token);
+      const response = await userService.request(`${serviceUrl}users/profile`);
+      expect(response.ok).toEqual(true);
+    });
+
+    it('If should return Promise', async () => {
+      nock(/[.]+/)
+        .get('/users/v1/users/profile')
+        .reply(200);
+      const userService = new UserService(serviceUrl);
+      const response = userService.request(`${serviceUrl}users/profile`);
+      expect(Promise.resolve(response)).toEqual(response);
     });
   });
 });
